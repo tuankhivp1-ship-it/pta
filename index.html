@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sắp xếp các số từ bé đến lớn</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 60px;
+    }
+    h2 {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    p {
+      margin: 8px 0;
+      color: #333;
+    }
+    input[type="text"] {
+      width: 280px;
+      padding: 6px 8px;
+      font-size: 14px;
+      border: 1px solid #767676;
+      border-radius: 2px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 14px;
+      padding: 6px 14px;
+      font-size: 14px;
+      background-color: #efefef;
+      border: 1px solid #767676;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e5e5e5;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Sắp xếp các số từ bé đến lớn</h2>
+  <p>Nhập các số, cách nhau bằng dấu phẩy:</p>
+  
+  <input type="text" id="arrayInput" value="5,2,8,1" placeholder="Ví dụ: 5,2,8,1">
+  <button onclick="handleSort()">Sắp xếp</button>
+
+  <div id="result">Kết quả: 1, 2, 5, 8</div>
+
+  <script>
+    // Hàm Quick Sort
+    function quickSort(arr) {
+      if (arr.length <= 1) return arr;
+
+      const pivot = arr[arr.length - 1];
+      const left = [];
+      const right = [];
+
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] < pivot) {
+          left.push(arr[i]);
+        } else {
+          right.push(arr[i]);
+        }
+      }
+
+      return [...quickSort(left), pivot, ...quickSort(right)];
+    }
+
+    // Xử lý sự kiện khi bấm nút
+    function handleSort() {
+      const rawInput = document.getElementById("arrayInput").value;
+      
+      // Chuyển chuỗi nhập vào thành mảng số thực/nguyên
+      const numbers = rawInput
+        .split(',')
+        .map(num => parseFloat(num.trim()))
+        .filter(num => !isNaN(num));
+
+      if (numbers.length === 0) {
+        document.getElementById("result").innerText = "Vui lòng nhập dãy số hợp lệ!";
+        return;
+      }
+
+      const sorted = quickSort(numbers);
+      document.getElementById("result").innerText = "Kết quả: " + sorted.join(', ');
+    }
+  </script>
+
+</body>
+</html>
